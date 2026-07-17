@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roger Nshimiyimana – Junior Cloud Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0b0b12;
+      --bg-card: #13131e;
+      --bg-card-hover: #1a1a2a;
+      --text: #e8e8f0;
+      --text-muted: #9090a8;
+      --accent: #00e5ff;
+      --accent-glow: rgba(0, 229, 255, 0.15);
+      --radius: 12px;
+      --max-w: 800px;
+    }
+    html { scroll-behavior: smooth; scroll-padding-top: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ─── Hidden Nav ─── */
+    .nav-area {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      pointer-events: none;
+    }
+    .nav-area.visible {
+      pointer-events: auto;
+    }
+
+    /* indicator — always visible thin accent line near the top */
+    .nav-indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .nav-indicator .bar {
+      display: block;
+      height: 3px;
+      background: var(--accent);
+      opacity: 0.35;
+      transition: opacity 0.3s;
+    }
+    .nav-indicator .handle {
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.9rem;
+      line-height: 1;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      letter-spacing: 2px;
+    }
+    .nav-area.visible .nav-indicator .bar { opacity: 0.7; }
+    .nav-area.visible .nav-indicator .handle { opacity: 0.5; }
+
+    /* the nav bar itself */
+    .nav-area nav {
+      position: relative;
+      z-index: 1;
+      background: rgba(11, 11, 18, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transform: translateY(-100%);
+      transition: transform 0.35s ease;
+      pointer-events: auto;
+    }
+    .nav-area.visible nav {
+      transform: translateY(0);
+    }
+    .nav-area nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-area nav .logo {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-area nav .logo .accent { color: var(--accent); }
+    .nav-area nav ul {
+      display: flex;
+      gap: 6px;
+      list-style: none;
+    }
+    .nav-area nav ul a {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-area nav ul a:hover {
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+    }
+
+    /* ─── Language Toggle ─── */
+    .lang-toggle {
+      display: flex;
+      margin-left: 8px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .lang-toggle button {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .lang-toggle button.active {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .lang-toggle button:not(.active):hover {
+      color: var(--text);
+    }
+
+    /* ─── Header ─── */
+    header {
+      padding: 56px 0 32px;
+      text-align: center;
+      position: relative;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      border-radius: 100px;
+      padding: 6px 16px 6px 12px;
+      font-size: 0.825rem;
+      font-weight: 500;
+      color: #22c55e;
+      margin-bottom: 28px;
+    }
+    .badge::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+    }
+    header .tagline {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .accent {
+      color: var(--accent);
+    }
+
+    /* ─── Sections ─── */
+    section { padding: 56px 0; }
+    section h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    section h2::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(255,255,255,0.08), transparent);
+    }
+
+    /* ─── About ─── */
+    #about {
+      text-align: center;
+    }
+    #about p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #about p + p { margin-top: 16px; }
+    #about strong { color: var(--text); }
+
+    /* ─── Projects ─── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      padding: 24px 22px;
+      transition: background 0.25s, border-color 0.25s, transform 0.25s;
+    }
+    .project-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 229, 255, 0.15);
+      transform: translateY(-3px);
+    }
+    .card-img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: calc(var(--radius) - 4px);
+      object-fit: cover;
+      display: block;
+      margin-bottom: 16px;
+      background: var(--bg);
+    }
+    .project-card .icon {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+    .project-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .project-card p {
+      font-size: 0.89rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+    .project-tags span {
+      font-size: 0.75rem;
+      background: rgba(0, 229, 255, 0.08);
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-weight: 500;
+    }
+
+    /* ─── Skills ─── */
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      list-style: none;
+    }
+    .skills-list li {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skills-list li:hover {
+      border-color: rgba(0, 229, 255, 0.3);
+      color: var(--accent);
+    }
+
+    /* ─── Contact ─── */
+    #contact p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .contact-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.05);
+      color: var(--text);
+    }
+    .contact-links a:hover {
+      background: rgba(0, 229, 255, 0.08);
+      border-color: rgba(0, 229, 255, 0.25);
+      color: var(--accent);
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      text-align: center;
+      padding: 32px 0 48px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 600px) {
+      .nav-area nav .container { height: 48px; }
+      .nav-area nav ul a { padding: 6px 8px; font-size: 0.78rem; }
+      .lang-toggle button { padding: 3px 7px; font-size: 0.7rem; }
+      header { padding: 36px 0 24px; }
+      header h1 { font-size: 1.8rem; }
+      header .tagline { font-size: 1rem; }
+      section { padding: 40px 0; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .contact-links { flex-direction: column; }
+      .contact-links a { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── HIDDEN NAV ─── -->
+  <div class="nav-area" id="navArea">
+    <div class="nav-indicator">
+      <span class="bar"></span>
+      <span class="handle">&#9776;</span>
+    </div>
+    <nav>
+      <div class="container">
+        <a href="#" class="logo">Roger <span class="accent">Nshimiyimana</span></a>
+        <ul>
+          <li><a href="#about" data-i18n="nav.about">About</a></li>
+          <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+          <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+          <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+        <div class="lang-toggle">
+          <button class="active" data-lang="en">EN</button>
+          <button data-lang="de">DE</button>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container">
+
+    <!-- ─── HEADER ─── -->
+    <header>
+      <div class="badge" data-i18n="badge">Open to Work</div>
+      <h1>Roger <span class="accent">Nshimiyimana</span></h1>
+      <p class="tagline" data-i18n="tagline">Junior Cloud Engineer &mdash; AWS &middot; Terraform &middot; CI/CD</p>
+    </header>
+
+    <!-- ─── ABOUT ─── -->
+    <section id="about">
+      <h2 data-i18n="about.title">About</h2>
+      <p data-i18n="about.p1">
+        I&rsquo;m a hands-on cloud engineer with a passion for building reliable,
+        scalable infrastructure. I recently completed the <strong>AWS Cloud Practitioner</strong>
+        certification and have been spending my time deploying real projects with
+        Terraform, Docker, and CI/CD pipelines.
+      </p>
+      <p data-i18n="about.p2">
+        I&rsquo;m looking for my first full-time cloud role &mdash; somewhere I can
+        contribute immediately and keep growing. I care about clean code, clear
+        documentation, and infrastructure you can actually sleep through the night
+        knowing about.
+      </p>
+    </section>
+
+    <!-- ─── PROJECTS ─── -->
+    <section id="projects">
+      <h2 data-i18n="projects.title">Projects</h2>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <img class="card-img" src="images/project-01.jpg" alt="AWS VPC Lab">
+          <div class="icon">&#9729;</div>
+          <h3 data-i18n="projects.card1.title">AWS VPC Lab</h3>
+          <p data-i18n="projects.card1.desc">Multi-tier VPC with public/private subnets, NAT gateway, and security groups, all defined in Terraform.</p>
+          <div class="project-tags"><span>Terraform</span><span>AWS</span><span>VPC</span></div>
+        </div>
+
+        <div class="project-card">
+          <img class="card-img" src="images/project-02.jpg" alt="Docker Node Deploy">
+          <div class="icon">&#9881;</div>
+          <h3 data-i18n="projects.card2.title">Docker Node Deploy</h3>
+          <p data-i18n="projects.card2.desc">Containerised Node.js API behind an Nginx reverse proxy, deployed via GitHub Actions onto an EC2 instance.</p>
+          <div class="project-tags"><span>Docker</span><span>GitHub Actions</span><span>EC2</span></div>
+        </div>
+
+        <div class="project-card">
+          <img class="card-img" src="images/project-03.jpg" alt="Serverless URL Shortener">
+          <div class="icon">&#9783;</div>
+          <h3 data-i18n="projects.card3.title">Serverless URL Shortener</h3>
+          <p data-i18n="projects.card3.desc">Fully serverless app using Lambda, API Gateway, and DynamoDB with a React frontend hosted on S3 + CloudFront.</p>
+          <div class="project-tags"><span>Lambda</span><span>DynamoDB</span><span>S3</span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── SKILLS ─── -->
+    <section id="skills">
+      <h2 data-i18n="skills.title">Skills</h2>
+      <ul class="skills-list">
+        <li>AWS (EC2, S3, Lambda, VPC, RDS)</li>
+        <li>Terraform</li>
+        <li>Docker</li>
+        <li>CI/CD (GitHub Actions)</li>
+        <li>Linux / Bash</li>
+        <li>Python</li>
+        <li>Node.js</li>
+        <li>Git</li>
+        <li>CloudWatch &amp; Monitoring</li>
+      </ul>
+    </section>
+
+    <!-- ─── CONTACT ─── -->
+    <section id="contact">
+      <h2 data-i18n="contact.title">Contact</h2>
+      <p data-i18n="contact.desc">If you&rsquo;re hiring for a cloud role or just want to connect, I&rsquo;d love to hear from you.</p>
+      <div class="contact-links">
+        <a href="mailto:rogeriostream@gmail.com">&#9993; rogeriostream@gmail.com</a>
+        <a href="mailto:ronshimiyimana99@gmail.com">&#9993; ronshimiyimana99@gmail.com</a>
+        <a href="tel:+4917672147018">&#9742; +49 176 72147018</a>
+        <a href="https://github.com/rogernshimiyimana" target="_blank" rel="noopener">&#128187; GitHub</a>
+        <a href="https://linkedin.com/in/rogernshimiyimana" target="_blank" rel="noopener">&#128100; LinkedIn</a>
+        <a href="https://rogernshimiyimana.dev" target="_blank" rel="noopener">&#127760; Portfolio</a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="container" data-i18n="footer">&copy; 2026 Roger Nshimiyimana &mdash; built with &#9829; and way too much coffee.</div>
+  </footer>
+
+  <script>
+    /* ─── Hidden Nav ─── */
+    const navArea = document.getElementById('navArea');
+    let hideTimer;
+
+    document.addEventListener('mousemove', (e) => {
+      if (e.clientY < 40) {
+        navArea.classList.add('visible');
+        clearTimeout(hideTimer);
+      }
+    });
+
+    navArea.addEventListener('mouseenter', () => {
+      navArea.classList.add('visible');
+      clearTimeout(hideTimer);
+    });
+
+    navArea.addEventListener('mouseleave', () => {
+      if (window.scrollY > 0) {
+        hideTimer = setTimeout(() => {
+          navArea.classList.remove('visible');
+        }, 400);
+      }
+    });
+
+    document.addEventListener('scroll', () => {
+      if (window.scrollY === 0) {
+        navArea.classList.remove('visible');
+      }
+    });
+
+    /* ─── Language Toggle ─── */
+    const translations = {
+      en: {
+        'nav.about': 'About',
+        'nav.projects': 'Projects',
+        'nav.skills': 'Skills',
+        'nav.contact': 'Contact',
+        'badge': 'Open to Work',
+        'tagline': 'Junior Cloud Engineer \u2014 AWS \u00b7 Terraform \u00b7 CI/CD',
+        'about.title': 'About',
+        'about.p1': 'I\u2019m a hands-on cloud engineer with a passion for building reliable, scalable infrastructure. I recently completed the AWS Cloud Practitioner certification and have been spending my time deploying real projects with Terraform, Docker, and CI/CD pipelines.',
+        'about.p2': 'I\u2019m looking for my first full-time cloud role \u2014 somewhere I can contribute immediately and keep growing. I care about clean code, clear documentation, and infrastructure you can actually sleep through the night knowing about.',
+        'projects.title': 'Projects',
+        'projects.card1.title': 'AWS VPC Lab',
+        'projects.card1.desc': 'Multi-tier VPC with public/private subnets, NAT gateway, and security groups, all defined in Terraform.',
+        'projects.card2.title': 'Docker Node Deploy',
+        'projects.card2.desc': 'Containerised Node.js API behind an Nginx reverse proxy, deployed via GitHub Actions onto an EC2 instance.',
+        'projects.card3.title': 'Serverless URL Shortener',
+        'projects.card3.desc': 'Fully serverless app using Lambda, API Gateway, and DynamoDB with a React frontend hosted on S3 + CloudFront.',
+        'skills.title': 'Skills',
+        'contact.title': 'Contact',
+        'contact.desc': 'If you\u2019re hiring for a cloud role or just want to connect, I\u2019d love to hear from you.',
+        'footer': '\u00a9 2026 Roger Nshimiyimana \u2014 built with \u2665 and way too much coffee.'
+      },
+      de: {
+        'nav.about': '\u00dcber mich',
+        'nav.projects': 'Projekte',
+        'nav.skills': 'Kenntnisse',
+        'nav.contact': 'Kontakt',
+        'badge': 'Offen f\u00fcr Arbeit',
+        'tagline': 'Junior Cloud Engineer \u2014 AWS \u00b7 Terraform \u00b7 CI/CD',
+        'about.title': '\u00dcber mich',
+        'about.p1': 'Ich bin ein praktisch orientierter Cloud-Engineer mit einer Leidenschaft f\u00fcr zuverl\u00e4ssige und skalierbare Infrastruktur. Ich habe k\u00fcrzlich die AWS Cloud Practitioner Zertifizierung abgeschlossen und verbringe meine Zeit damit, echte Projekte mit Terraform, Docker und CI/CD-Pipelines zu deployen.',
+        'about.p2': 'Ich suche meine erste Vollzeitstelle im Cloud-Bereich \u2014 ein Ort, an dem ich sofort einen Beitrag leisten und mich weiterentwickeln kann. Sauberer Code, klare Dokumentation und eine Infrastruktur, bei der man ruhig schlafen kann, sind mir wichtig.',
+        'projects.title': 'Projekte',
+        'projects.card1.title': 'AWS VPC Lab',
+        'projects.card1.desc': 'Mehrstufiges VPC mit \u00f6ffentlichen/privaten Subnetzen, NAT-Gateway und Security Groups, alles in Terraform definiert.',
+        'projects.card2.title': 'Docker Node Deploy',
+        'projects.card2.desc': 'Containerisierte Node.js-API hinter einem Nginx-Reverse-Proxy, deployed \u00fcber GitHub Actions auf eine EC2-Instanz.',
+        'projects.card3.title': 'Serverless URL Shortener',
+        'projects.card3.desc': 'Vollst\u00e4ndig serverlose App mit Lambda, API Gateway und DynamoDB sowie einem React-Frontend gehostet auf S3 + CloudFront.',
+        'skills.title': 'Kenntnisse',
+        'contact.title': 'Kontakt',
+        'contact.desc': 'Wenn Sie einen Cloud-Engineer suchen oder einfach nur vernetzen m\u00f6chten, freue ich mich \u00fcber Ihre Nachricht.',
+        'footer': '\u00a9 2026 Roger Nshimiyimana \u2014 erstellt mit \u2665 und viel zu viel Kaffee.'
+      }
+    };
+
+    let currentLang = 'en';
+
+    function applyLanguage(lang) {
+      document.documentElement.lang = lang === 'de' ? 'de' : 'en';
+      const els = document.querySelectorAll('[data-i18n]');
+      els.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+      document.querySelectorAll('.lang-toggle button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      currentLang = lang;
+    }
+
+    document.querySelectorAll('.lang-toggle button').forEach(btn => {
+      btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+    });
+  </script>
+
+</body>
+</html>

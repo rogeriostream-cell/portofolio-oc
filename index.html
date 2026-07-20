@@ -19,6 +19,11 @@
       --accent-glow: rgba(0, 229, 255, 0.15);
       --radius: 12px;
       --max-w: 800px;
+      --shadow-card: 0 4px 20px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.4);
+      --shadow-card-hover: 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,229,255,0.06);
+      --shadow-btn: 0 3px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+      --shadow-btn-press: 0 1px 4px rgba(0,0,0,0.4), inset 0 1px 2px rgba(0,0,0,0.2);
+      --shadow-text: 0 2px 4px rgba(0,0,0,0.3);
     }
     html { scroll-behavior: smooth; scroll-padding-top: 0; }
     body {
@@ -34,6 +39,10 @@
       margin: 0 auto;
       padding: 0 24px;
     }
+
+    /* ─── Raised text ─── */
+    h1, h2, h3, .org, .badge, .logo, .tagline { text-shadow: 0 2px 4px rgba(0,0,0,0.35); }
+    p, li { text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
 
     /* ─── Hidden Nav ─── */
     .nav-area {
@@ -87,6 +96,7 @@
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
       transform: translateY(-100%);
       transition: transform 0.35s ease;
       pointer-events: auto;
@@ -149,6 +159,11 @@
     .lang-toggle button.active {
       background: var(--accent);
       color: var(--bg);
+      box-shadow: var(--shadow-btn);
+    }
+    .lang-toggle button:active {
+      box-shadow: var(--shadow-btn-press);
+      transform: translateY(1px);
     }
     .lang-toggle button:not(.active):hover {
       color: var(--text);
@@ -172,6 +187,7 @@
       font-weight: 500;
       color: #22c55e;
       margin-bottom: 28px;
+      box-shadow: var(--shadow-btn);
     }
     .badge::before {
       content: '';
@@ -201,6 +217,33 @@
     .accent {
       color: var(--accent);
     }
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 20px;
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--text);
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: var(--shadow-btn);
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .hero-link:hover {
+      background: rgba(0, 229, 255, 0.08);
+      border-color: rgba(0, 229, 255, 0.25);
+      color: var(--accent);
+      box-shadow: 0 5px 16px rgba(0,0,0,0.35), 0 2px 4px rgba(0,229,255,0.08);
+      transform: translateY(-2px);
+    }
+    .hero-link:active {
+      box-shadow: var(--shadow-btn-press);
+      transform: translateY(1px);
+    }
 
     /* ─── Sections ─── */
     section { padding: 56px 0; }
@@ -221,18 +264,41 @@
     }
 
     /* ─── About ─── */
-    #about {
-      text-align: center;
+    .about-wrap {
+      display: flex;
+      align-items: center;
+      gap: 36px;
     }
-    #about p {
+    .about-avatar {
+      flex-shrink: 0;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(0, 229, 255, 0.25);
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.1), 0 8px 32px rgba(0,0,0,0.35);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      animation: fadeIn 0.8s ease both;
+    }
+    .about-avatar:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 32px rgba(0, 229, 255, 0.18);
+      transform: scale(1.02);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .about-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .about-text p {
       color: var(--text-muted);
       font-size: 1rem;
-      max-width: 640px;
-      margin-left: auto;
-      margin-right: auto;
     }
-    #about p + p { margin-top: 16px; }
-    #about strong { color: var(--text); }
+    .about-text p + p { margin-top: 16px; }
+    .about-text strong { color: var(--text); }
 
     /* ─── Projects ─── */
     .projects-grid {
@@ -245,12 +311,14 @@
       border: 1px solid rgba(255,255,255,0.04);
       border-radius: var(--radius);
       padding: 24px 22px;
-      transition: background 0.25s, border-color 0.25s, transform 0.25s;
+      box-shadow: var(--shadow-card);
+      transition: background 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s;
     }
     .project-card:hover {
       background: var(--bg-card-hover);
       border-color: rgba(0, 229, 255, 0.15);
-      transform: translateY(-3px);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card-hover);
     }
     .card-img {
       width: 100%;
@@ -291,25 +359,192 @@
       font-weight: 500;
     }
 
-    /* ─── Skills ─── */
-    .skills-list {
+    /* ─── Experience ─── */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 11px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), rgba(0, 229, 255, 0.1));
+      border-radius: 2px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 36px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .timeline-item.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-dot {
+      position: absolute;
+      left: -26px;
+      top: 6px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--accent);
+      z-index: 1;
+      transition: box-shadow 0.3s, background 0.3s;
+    }
+    .timeline-item:hover .timeline-dot {
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
+    }
+    .timeline-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow-card);
+      transition: background 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .timeline-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 229, 255, 0.12);
+      transform: translateX(4px);
+      box-shadow: var(--shadow-card-hover);
+    }
+    .timeline-card .meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      list-style: none;
+      align-items: center;
+      gap: 10px 16px;
+      margin-bottom: 6px;
     }
-    .skills-list li {
-      background: var(--bg-card);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 100px;
-      padding: 8px 18px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .skills-list li:hover {
-      border-color: rgba(0, 229, 255, 0.3);
+    .timeline-card .org {
+      font-size: 0.82rem;
+      font-weight: 600;
       color: var(--accent);
+      letter-spacing: 0.01em;
+    }
+    .timeline-card .duration {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .timeline-card .duration::before {
+      content: '\2022';
+      color: rgba(255,255,255,0.15);
+    }
+    .timeline-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .timeline-card ul {
+      list-style: none;
+      padding: 0;
+    }
+    .timeline-card ul li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      padding-left: 18px;
+      position: relative;
+    }
+    .timeline-card ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(0, 229, 255, 0.3);
+    }
+    .timeline-card ul li + li { margin-top: 6px; }
+    .timeline-card .course-list li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      padding-left: 18px;
+      position: relative;
+    }
+    .timeline-card .course-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(0, 229, 255, 0.3);
+    }
+
+    /* ─── Skills ─── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .skill-group {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-card);
+      transition: background 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .skill-group:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 229, 255, 0.1);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-card-hover);
+    }
+    .skill-group h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.03em;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .skill-group h3 span { font-size: 1.1rem; }
+    .skill-group ul {
+      list-style: none;
+      padding: 0;
+    }
+    .skill-group ul li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      padding: 5px 0;
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.5;
+      transition: color 0.2s;
+    }
+    .skill-group ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(0, 229, 255, 0.25);
+      transition: background 0.2s;
+    }
+    .skill-group:hover ul li::before {
+      background: rgba(0, 229, 255, 0.5);
+    }
+    .skill-group ul li:hover {
+      color: var(--text);
     }
 
     /* ─── Contact ─── */
@@ -331,15 +566,22 @@
       font-size: 0.9rem;
       font-weight: 500;
       text-decoration: none;
-      transition: background 0.2s, color 0.2s;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
       background: var(--bg-card);
       border: 1px solid rgba(255,255,255,0.05);
       color: var(--text);
+      box-shadow: var(--shadow-btn);
     }
     .contact-links a:hover {
       background: rgba(0, 229, 255, 0.08);
       border-color: rgba(0, 229, 255, 0.25);
       color: var(--accent);
+      box-shadow: 0 5px 16px rgba(0,0,0,0.35), 0 2px 4px rgba(0,229,255,0.08);
+      transform: translateY(-2px);
+    }
+    .contact-links a:active {
+      box-shadow: var(--shadow-btn-press);
+      transform: translateY(1px);
     }
 
     /* ─── Footer ─── */
@@ -353,6 +595,12 @@
 
     /* ─── Responsive ─── */
     @media (max-width: 600px) {
+      .timeline { padding-left: 28px; }
+      .timeline::before { left: 9px; }
+      .timeline-dot { left: -22px; width: 12px; height: 12px; }
+      .timeline-card { padding: 16px 18px; }
+      .timeline-card .meta { flex-direction: column; align-items: flex-start; gap: 2px; }
+      .timeline-card .duration::before { display: none; }
       .nav-area nav .container { height: 48px; }
       .nav-area nav ul a { padding: 6px 8px; font-size: 0.78rem; }
       .lang-toggle button { padding: 3px 7px; font-size: 0.7rem; }
@@ -361,6 +609,8 @@
       header .tagline { font-size: 1rem; }
       section { padding: 40px 0; }
       .projects-grid { grid-template-columns: 1fr; }
+      .about-wrap { flex-direction: column; text-align: center; gap: 24px; }
+      .about-avatar { width: 160px; height: 160px; }
       .contact-links { flex-direction: column; }
       .contact-links a { justify-content: center; }
     }
@@ -380,6 +630,8 @@
         <ul>
           <li><a href="#about" data-i18n="nav.about">About</a></li>
           <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+          <li><a href="#education" data-i18n="nav.education">Education</a></li>
+          <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
           <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
           <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
         </ul>
@@ -398,23 +650,29 @@
       <div class="badge" data-i18n="badge">Open to Work</div>
       <h1>Roger <span class="accent">Nshimiyimana</span></h1>
       <p class="tagline" data-i18n="tagline">Junior Cloud Engineer &mdash; AWS &middot; Terraform &middot; CI/CD</p>
+      <a href="https://github.com/rogeriostream-cell/portofolio-oc" target="_blank" rel="noopener" class="hero-link">&#128279; github.com/rogeriostream-cell/portofolio-oc</a>
     </header>
 
     <!-- ─── ABOUT ─── -->
     <section id="about">
       <h2 data-i18n="about.title">About</h2>
-      <p data-i18n="about.p1">
-        I&rsquo;m a hands-on cloud engineer with a passion for building reliable,
-        scalable infrastructure. I recently completed the <strong>AWS Cloud Practitioner</strong>
-        certification and have been spending my time deploying real projects with
-        Terraform, Docker, and CI/CD pipelines.
-      </p>
-      <p data-i18n="about.p2">
-        I&rsquo;m looking for my first full-time cloud role &mdash; somewhere I can
-        contribute immediately and keep growing. I care about clean code, clear
-        documentation, and infrastructure you can actually sleep through the night
-        knowing about.
-      </p>
+      <div class="about-wrap">
+        <img class="about-avatar" src="assets/images/profile.jpg" alt="Portrait of Roger Nshimiyimana" loading="lazy">
+        <div class="about-text">
+          <p data-i18n="about.p1">
+            I&rsquo;m a hands-on cloud engineer with a passion for building reliable,
+            scalable infrastructure. I recently completed the <strong>AWS Cloud Practitioner</strong>
+            certification and have been spending my time deploying real projects with
+            Terraform, Docker, and CI/CD pipelines.
+          </p>
+          <p data-i18n="about.p2">
+            I&rsquo;m looking for my first full-time cloud role &mdash; somewhere I can
+            contribute immediately and keep growing. I care about clean code, clear
+            documentation, and infrastructure you can actually sleep through the night
+            knowing about.
+          </p>
+        </div>
+      </div>
     </section>
 
     <!-- ─── PROJECTS ─── -->
@@ -449,20 +707,163 @@
       </div>
     </section>
 
+    <!-- ─── EDUCATION ─── -->
+    <section id="education">
+      <h2 data-i18n="education.title">Education &amp; Training</h2>
+      <div class="timeline">
+
+        <div class="timeline-item" data-reveal>
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="meta">
+              <span class="org" data-i18n="education.dci.org">DCI – Digital Career Institute</span>
+              <span class="duration" data-i18n="education.dci.duration">02/2026 &ndash; 04/2027</span>
+            </div>
+            <h3 data-i18n="education.dci.title">Cloud Engineering Programme</h3>
+            <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.55;margin-bottom:8px;" data-i18n="education.dci.location">Berlin, Germany</p>
+            <ul class="course-list" style="list-style:none;padding:0;">
+              <li data-i18n="education.dci.course1">Cloud Engineer AWS</li>
+              <li data-i18n="education.dci.course2">System Administration</li>
+              <li data-i18n="education.dci.course3">AWS Solutions Architect + Terraform</li>
+              <li data-i18n="education.dci.course4">Project Planning</li>
+              <li data-i18n="education.dci.course5">Fundamentals of Artificial Intelligence</li>
+              <li data-i18n="education.dci.course6">Workshop on Professional Key Competencies</li>
+              <li data-i18n="education.dci.course7">Professional Language Skills Development</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-reveal>
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="meta">
+              <span class="org" data-i18n="education.bachelor.org">University of Business and Economics</span>
+              <span class="duration" data-i18n="education.bachelor.duration">08/2015 &ndash; 01/2020</span>
+            </div>
+            <h3 data-i18n="education.bachelor.title">Bachelor, BIT (Business Information &amp; Technology)</h3>
+            <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.55;" data-i18n="education.bachelor.desc">Officially recognised in Germany.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-reveal>
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="meta">
+              <span class="org" data-i18n="education.school.org">Collège de l'Espoir de la GASOGI</span>
+              <span class="duration" data-i18n="education.school.duration">08/2012 &ndash; 10/2024</span>
+            </div>
+            <h3 data-i18n="education.school.title">High School Diploma</h3>
+            <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.55;" data-i18n="education.school.desc"></p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── EXPERIENCE ─── -->
+    <section id="experience">
+      <h2 data-i18n="experience.title">Experience</h2>
+      <div class="timeline">
+
+        <div class="timeline-item" data-reveal>
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="meta">
+              <span class="org">Arbeiter-Samariter-Bund (ASB)</span>
+              <span class="duration" data-i18n="experience.asb.duration">11/2024 &ndash; 01/2026</span>
+            </div>
+            <h3 data-i18n="experience.asb.role">Administrative Assistant &amp; Interpreter</h3>
+            <ul>
+              <li data-i18n="experience.asb.resp1">Assisted with administrative registration and documentation of refugees.</li>
+              <li data-i18n="experience.asb.resp2">Interpreted between refugees and staff in multiple languages to ensure clear communication.</li>
+              <li data-i18n="experience.asb.resp3">Communicated professionally with government agencies and partner organisations.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-reveal>
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="meta">
+              <span class="org">Bäckerei Schäfer's</span>
+              <span class="duration" data-i18n="experience.sales.duration">09/2022 &ndash; 01/2024</span>
+            </div>
+            <h3 data-i18n="experience.sales.role">Sales Assistant</h3>
+            <ul>
+              <li data-i18n="experience.sales.resp1">Operated the cash register and performed accurate reconciliation of daily sales.</li>
+              <li data-i18n="experience.sales.resp2">Provided friendly and professional customer service, assisting customers with product selection and purchases.</li>
+              <li data-i18n="experience.sales.resp3">Received deliveries, organised inventory, and restocked merchandise to maintain product availability and an attractive sales area.</li>
+              <li data-i18n="experience.sales.resp4">Worked collaboratively with team members to ensure efficient daily store operations and a positive customer experience.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-reveal>
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="meta">
+              <span class="org" data-i18n="experience.it.org">Best Future Company, Rwanda</span>
+              <span class="duration" data-i18n="experience.it.duration">02/2018 &ndash; 06/2018</span>
+            </div>
+            <h3 data-i18n="experience.it.role">IT Support Intern</h3>
+            <ul>
+              <li data-i18n="experience.it.resp1">Provided technical support to employees and assisted with troubleshooting hardware, software, and system-related issues.</li>
+              <li data-i18n="experience.it.resp2">Assisted with system administration tasks, including maintaining IT systems, user support, and ensuring reliable system performance.</li>
+              <li data-i18n="experience.it.resp3">Supported the planning, coordination, and monitoring of IT operations and infrastructure.</li>
+              <li data-i18n="experience.it.resp4">Collaborated with the IT team to identify technical challenges and implement efficient solutions.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- ─── SKILLS ─── -->
     <section id="skills">
       <h2 data-i18n="skills.title">Skills</h2>
-      <ul class="skills-list">
-        <li>AWS (EC2, S3, Lambda, VPC, RDS)</li>
-        <li>Terraform</li>
-        <li>Docker</li>
-        <li>CI/CD (GitHub Actions)</li>
-        <li>Linux / Bash</li>
-        <li>Python</li>
-        <li>Node.js</li>
-        <li>Git</li>
-        <li>CloudWatch &amp; Monitoring</li>
-      </ul>
+      <div class="skills-grid">
+
+        <div class="skill-group">
+          <h3><span>&#9729;</span> <span data-i18n="skills.cloud.title">Cloud &amp; Infrastructure</span></h3>
+          <ul>
+            <li>AWS (EC2, S3, Lambda, VPC, RDS)</li>
+            <li>Terraform (IaC)</li>
+            <li>Docker &amp; Containerisation</li>
+            <li>CloudWatch &amp; Monitoring</li>
+          </ul>
+        </div>
+
+        <div class="skill-group">
+          <h3><span>&#9881;</span> <span data-i18n="skills.devops.title">DevOps &amp; Automation</span></h3>
+          <ul>
+            <li>CI/CD (GitHub Actions)</li>
+            <li>Linux / Bash Scripting</li>
+            <li>Git &amp; Version Control</li>
+            <li>Infrastructure as Code</li>
+          </ul>
+        </div>
+
+        <div class="skill-group">
+          <h3><span>&#9000;</span> <span data-i18n="skills.programming.title">Programming</span></h3>
+          <ul>
+            <li>Python</li>
+            <li>Node.js</li>
+            <li>SQL</li>
+            <li>HTML / CSS</li>
+          </ul>
+        </div>
+
+        <div class="skill-group">
+          <h3><span>&#128101;</span> <span data-i18n="skills.professional.title">Professional &amp; Admin</span></h3>
+          <ul>
+            <li data-i18n="skills.professional.resp1">Multilingual Communication (EN, DE, FR, SW)</li>
+            <li data-i18n="skills.professional.resp2">Documentation &amp; Reporting</li>
+            <li data-i18n="skills.professional.resp3">Interpreting &amp; Translation</li>
+            <li data-i18n="skills.professional.resp4">Cross-functional Collaboration</li>
+          </ul>
+        </div>
+
+      </div>
     </section>
 
     <!-- ─── CONTACT ─── -->
@@ -521,6 +922,8 @@
       en: {
         'nav.about': 'About',
         'nav.projects': 'Projects',
+        'nav.experience': 'Experience',
+        'nav.education': 'Education',
         'nav.skills': 'Skills',
         'nav.contact': 'Contact',
         'badge': 'Open to Work',
@@ -535,7 +938,54 @@
         'projects.card2.desc': 'Containerised Node.js API behind an Nginx reverse proxy, deployed via GitHub Actions onto an EC2 instance.',
         'projects.card3.title': 'Serverless URL Shortener',
         'projects.card3.desc': 'Fully serverless app using Lambda, API Gateway, and DynamoDB with a React frontend hosted on S3 + CloudFront.',
+        'experience.title': 'Experience',
+        'experience.sales.duration': '09/2022 \u2013 01/2024',
+        'experience.sales.role': 'Sales Assistant',
+        'experience.sales.resp1': 'Operated the cash register and performed accurate reconciliation of daily sales.',
+        'experience.sales.resp2': 'Provided friendly and professional customer service, assisting customers with product selection and purchases.',
+        'experience.sales.resp3': 'Received deliveries, organised inventory, and restocked merchandise to maintain product availability and an attractive sales area.',
+        'experience.sales.resp4': 'Worked collaboratively with team members to ensure efficient daily store operations and a positive customer experience.',
+        'experience.it.org': 'Best Future Company, Rwanda',
+        'experience.it.duration': '02/2018 \u2013 06/2018',
+        'experience.it.role': 'IT Support Intern',
+        'experience.it.resp1': 'Provided technical support to employees and assisted with troubleshooting hardware, software, and system-related issues.',
+        'experience.it.resp2': 'Assisted with system administration tasks, including maintaining IT systems, user support, and ensuring reliable system performance.',
+        'experience.it.resp3': 'Supported the planning, coordination, and monitoring of IT operations and infrastructure.',
+        'experience.it.resp4': 'Collaborated with the IT team to identify technical challenges and implement efficient solutions.',
+        'experience.asb.duration': '11/2024 \u2013 01/2026',
+        'experience.asb.role': 'Administrative Assistant & Interpreter',
+        'experience.asb.resp1': 'Assisted with administrative registration and documentation of refugees.',
+        'experience.asb.resp2': 'Interpreted between refugees and staff in multiple languages to ensure clear communication.',
+        'experience.asb.resp3': 'Communicated professionally with government agencies and partner organisations.',
+        'education.title': 'Education & Training',
+        'education.dci.org': 'DCI \u2013 Digital Career Institute',
+        'education.dci.duration': '02/2026 \u2013 04/2027',
+        'education.dci.title': 'Cloud Engineering Programme',
+        'education.dci.location': 'Berlin, Germany',
+        'education.dci.course1': 'Cloud Engineer AWS',
+        'education.dci.course2': 'System Administration',
+        'education.dci.course3': 'AWS Solutions Architect + Terraform',
+        'education.dci.course4': 'Project Planning',
+        'education.dci.course5': 'Fundamentals of Artificial Intelligence',
+        'education.dci.course6': 'Workshop on Professional Key Competencies',
+        'education.dci.course7': 'Professional Language Skills Development',
+        'education.bachelor.org': 'University of Business and Economics',
+        'education.bachelor.duration': '08/2015 \u2013 01/2020',
+        'education.bachelor.title': 'Bachelor, BIT (Business Information & Technology)',
+        'education.bachelor.desc': 'Officially recognised in Germany.',
+        'education.school.org': 'Coll\u00e8ge de l\u2019Espoir de la GASOGI',
+        'education.school.duration': '08/2012 \u2013 10/2024',
+        'education.school.title': 'High School Diploma',
+        'education.school.desc': '',
         'skills.title': 'Skills',
+        'skills.cloud.title': 'Cloud & Infrastructure',
+        'skills.devops.title': 'DevOps & Automation',
+        'skills.programming.title': 'Programming',
+        'skills.professional.title': 'Professional & Admin',
+        'skills.professional.resp1': 'Multilingual Communication (EN, DE, FR, SW)',
+        'skills.professional.resp2': 'Documentation & Reporting',
+        'skills.professional.resp3': 'Interpreting & Translation',
+        'skills.professional.resp4': 'Cross-functional Collaboration',
         'contact.title': 'Contact',
         'contact.desc': 'If you\u2019re hiring for a cloud role or just want to connect, I\u2019d love to hear from you.',
         'footer': '\u00a9 2026 Roger Nshimiyimana \u2014 built with \u2665 and way too much coffee.'
@@ -543,6 +993,8 @@
       de: {
         'nav.about': '\u00dcber mich',
         'nav.projects': 'Projekte',
+        'nav.experience': 'Erfahrung',
+        'nav.education': 'Bildung',
         'nav.skills': 'Kenntnisse',
         'nav.contact': 'Kontakt',
         'badge': 'Offen f\u00fcr Arbeit',
@@ -557,7 +1009,54 @@
         'projects.card2.desc': 'Containerisierte Node.js-API hinter einem Nginx-Reverse-Proxy, deployed \u00fcber GitHub Actions auf eine EC2-Instanz.',
         'projects.card3.title': 'Serverless URL Shortener',
         'projects.card3.desc': 'Vollst\u00e4ndig serverlose App mit Lambda, API Gateway und DynamoDB sowie einem React-Frontend gehostet auf S3 + CloudFront.',
+        'experience.title': 'Erfahrung',
+        'experience.sales.duration': '09/2022 \u2013 01/2024',
+        'experience.sales.role': 'Verkaufsassistent',
+        'experience.sales.resp1': 'Bedienung der Kasse und pr\u00e4zise Abrechnung der t\u00e4glichen Einnahmen.',
+        'experience.sales.resp2': 'Freundlicher und professioneller Kundenservice, Beratung bei der Produktauswahl und Kaufabwicklung.',
+        'experience.sales.resp3': 'Annahme von Lieferungen, Organisation des Lagerbestands und Auff\u00fcllen der Waren, um die Produktverf\u00fcgbarkeit und eine ansprechende Verkaufsfl\u00e4che zu gew\u00e4hrleisten.',
+        'experience.sales.resp4': 'Enge Zusammenarbeit im Team zur Sicherstellung eines effizienten t\u00e4glichen Ablaufs und eines positiven Kundenerlebnisses.',
+        'experience.it.org': 'Best Future Company, Ruanda',
+        'experience.it.duration': '02/2018 \u2013 06/2018',
+        'experience.it.role': 'IT-Support-Praktikant',
+        'experience.it.resp1': 'Technische Unterst\u00fctzung f\u00fcr Mitarbeitende und Hilfe bei der Fehlerbehebung von Hardware-, Software- und Systemproblemen.',
+        'experience.it.resp2': 'Unterst\u00fctzung bei Systemadministrationsaufgaben, einschlie\u00dflich Wartung von IT-Systemen, Benutzersupport und Sicherstellung zuverl\u00e4ssiger Systemleistung.',
+        'experience.it.resp3': 'Unterst\u00fctzung bei der Planung, Koordination und \u00dcberwachung von IT-Betrieb und Infrastruktur.',
+        'experience.it.resp4': 'Zusammenarbeit mit dem IT-Team zur Identifikation technischer Herausforderungen und Umsetzung effizienter L\u00f6sungen.',
+        'experience.asb.duration': '11/2024 \u2013 01/2026',
+        'experience.asb.role': 'Verwaltungsassistent & Dolmetscher',
+        'experience.asb.resp1': 'Unterst\u00fctzung bei der administrativen Registrierung und Dokumentation von Gefl\u00fcchteten.',
+        'experience.asb.resp2': 'Dolmetschen zwischen Gefl\u00fcchteten und Mitarbeitenden in mehreren Sprachen zur Sicherstellung klarer Kommunikation.',
+        'experience.asb.resp3': 'Professionelle Kommunikation mit Beh\u00f6rden und Partnerorganisationen.',
+        'education.title': 'Ausbildung & Weiterbildung',
+        'education.dci.org': 'DCI \u2013 Digital Career Institute',
+        'education.dci.duration': '02/2026 \u2013 04/2027',
+        'education.dci.title': 'Cloud-Engineering-Programm',
+        'education.dci.location': 'Berlin, Deutschland',
+        'education.dci.course1': 'Cloud Engineer AWS',
+        'education.dci.course2': 'Systemadministration',
+        'education.dci.course3': 'AWS Solutions Architect + Terraform',
+        'education.dci.course4': 'Projektplanung',
+        'education.dci.course5': 'Grundlagen der K\u00fcnstlichen Intelligenz',
+        'education.dci.course6': 'Workshop zu beruflichen Schl\u00fcsselkompetenzen',
+        'education.dci.course7': 'Berufliche Sprachkompetenzentwicklung',
+        'education.bachelor.org': 'University of Business and Economics',
+        'education.bachelor.duration': '08/2015 \u2013 01/2020',
+        'education.bachelor.title': 'Bachelor, BIT (Business Information & Technology)',
+        'education.bachelor.desc': 'Offiziell in Deutschland anerkannt.',
+        'education.school.org': 'Coll\u00e8ge de l\u2019Espoir de la GASOGI',
+        'education.school.duration': '08/2012 \u2013 10/2024',
+        'education.school.title': 'Abitur',
+        'education.school.desc': '',
         'skills.title': 'Kenntnisse',
+        'skills.cloud.title': 'Cloud & Infrastruktur',
+        'skills.devops.title': 'DevOps & Automatisierung',
+        'skills.programming.title': 'Programmierung',
+        'skills.professional.title': 'Professional & Verwaltung',
+        'skills.professional.resp1': 'Mehrsprachige Kommunikation (EN, DE, FR, SW)',
+        'skills.professional.resp2': 'Dokumentation & Berichtswesen',
+        'skills.professional.resp3': 'Dolmetschen & Übersetzen',
+        'skills.professional.resp4': 'Abteilungsübergreifende Zusammenarbeit',
         'contact.title': 'Kontakt',
         'contact.desc': 'Wenn Sie einen Cloud-Engineer suchen oder einfach nur vernetzen m\u00f6chten, freue ich mich \u00fcber Ihre Nachricht.',
         'footer': '\u00a9 2026 Roger Nshimiyimana \u2014 erstellt mit \u2665 und viel zu viel Kaffee.'
@@ -584,6 +1083,18 @@
     document.querySelectorAll('.lang-toggle button').forEach(btn => {
       btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
     });
+
+    /* ─── Scroll Reveal ─── */
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => revealObserver.observe(el));
   </script>
 
 </body>

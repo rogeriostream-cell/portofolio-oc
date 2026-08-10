@@ -543,6 +543,21 @@
       margin-top: 4px;
     }
 
+    /* ─── Resume ─── */
+    .resume-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+      padding: 16px 0;
+    }
+    .resume-text {
+      max-width: 560px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
     /* ─── Contact ─── */
     #contact p {
       color: var(--text-muted);
@@ -645,6 +660,7 @@
           <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
           <li><a href="#languages" data-i18n="nav.languages">Languages</a></li>
           <li><a href="#certificates" data-i18n="nav.certificates">Certificates</a></li>
+          <li><a href="#resume" data-i18n="nav.resume">Resume</a></li>
           <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
           <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
       </ul>
@@ -968,6 +984,19 @@
 
     <div class="section-divider"><span class="diamond"></span></div>
 
+    <!-- ─── RESUME ─── -->
+    <section id="resume">
+      <h2 class="reveal" data-i18n="resume.title">Resume</h2>
+      <div class="resume-box reveal">
+        <div class="resume-text" data-i18n="resume.desc">
+          Download my CV for a full overview of my education, experience, and skills.
+        </div>
+        <a href="resume.pdf" download class="hero-link primary">↓ <span data-i18n="resume.download">Download CV</span></a>
+      </div>
+    </section>
+
+    <div class="section-divider"><span class="diamond"></span></div>
+
     <!-- ─── PROJECTS ─── -->
     <section id="projects">
       <h2 class="reveal" data-i18n="projects.title">Projects</h2>
@@ -1067,6 +1096,7 @@
         'nav.about': 'About', 'nav.projects': 'Projects', 'nav.experience': 'Experience',
         'nav.education': 'Education', 'nav.skills': 'Skills', 'nav.languages': 'Languages',
         'nav.certificates': 'Certificates', 'nav.contact': 'Contact',
+        'nav.resume': 'Resume',
         'tagline': 'Junior Cloud Engineer — AWS · Terraform · CI/CD',
         'hero.contact': 'Get in touch', 'hero.work': 'View work',
         'stats.languages': 'Languages', 'stats.certifications': 'Certifications', 'stats.projects': 'Projects',
@@ -1116,6 +1146,9 @@
         'certificates.solutions.title': 'AWS Solutions Architect', 'certificates.solutions.date': '2026',
         'certificates.aws.title': 'AWS Cloud Practitioner', 'certificates.aws.date': '2026',
         'certificates.terraform.title': 'Terraform Associate', 'certificates.terraform.date': '2026',
+        'resume.title': 'Resume',
+        'resume.desc': 'Download my CV for a full overview of my education, experience, and skills.',
+        'resume.download': 'Download CV',
         'contact.title': 'Contact',
         'contact.desc': 'If you\u2019re hiring for a cloud role or just want to connect, I\u2019d love to hear from you.',
         'footer': '\u00a9 2026 Roger Nshimiyimana — built with \u2665 and way too much coffee.'
@@ -1124,6 +1157,7 @@
         'nav.about': 'Über mich', 'nav.projects': 'Projekte', 'nav.experience': 'Erfahrung',
         'nav.education': 'Bildung', 'nav.skills': 'Kenntnisse', 'nav.languages': 'Sprachen',
         'nav.certificates': 'Zertifikate', 'nav.contact': 'Kontakt',
+        'nav.resume': 'Lebenslauf',
         'tagline': 'Junior Cloud Engineer — AWS · Terraform · CI/CD',
         'hero.contact': 'Kontakt aufnehmen', 'hero.work': 'Projekte ansehen',
         'stats.languages': 'Sprachen', 'stats.certifications': 'Zertifikate', 'stats.projects': 'Projekte',
@@ -1172,6 +1206,9 @@
         'certificates.solutions.title': 'AWS Solutions Architect', 'certificates.solutions.date': '2026',
         'certificates.aws.title': 'AWS Cloud Practitioner', 'certificates.aws.date': '2026',
         'certificates.terraform.title': 'Terraform Associate', 'certificates.terraform.date': '2026',
+        'resume.title': 'Lebenslauf',
+        'resume.desc': 'Laden Sie meinen Lebenslauf herunter für eine vollständige Übersicht über meine Ausbildung, Erfahrung und Kenntnisse.',
+        'resume.download': 'Lebenslauf herunterladen',
         'contact.title': 'Kontakt',
         'contact.desc': 'Wenn Sie einen Cloud-Engineer suchen oder einfach nur vernetzen möchten, freue ich mich über Ihre Nachricht.',
         'footer': '\u00a9 2026 Roger Nshimiyimana — erstellt mit \u2665 und viel zu viel Kaffee.'
